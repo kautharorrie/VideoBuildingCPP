@@ -16,6 +16,7 @@ int main (int argc, char** argv)
 	std::string f;
     std::string filename = "sloan_image.pgm";
 
+    //get file comments
     std::string fileType = "";
     std::string comments = "";
     std::string blank = "";
@@ -31,7 +32,9 @@ int main (int argc, char** argv)
 
     char * mem;
     
+    std::vector<unsigned char **> imageSequence; //stores all extracted image frames
 
+    //open the image in binary format
     ifstream file("sloan_image.pgm", ios::in|ios::binary);
     if (file.is_open())
     {
