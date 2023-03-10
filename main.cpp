@@ -88,9 +88,9 @@ int main (int argc, char** argv)
 
     mem = new char [blocksize];
     int in = 0;
-    for (int x =0; x < 1938; x++ )
+    for (int x = 0; x < 1500; x++ )
     {
-        for (int y = 0; y <3000; y++ )
+        for (int y = 1500; y <3000; y++ )
         {
             mem[in] = values[x][y];
             
@@ -104,7 +104,7 @@ int main (int argc, char** argv)
         //file.seekg (0, ios::beg); //get the first position
         File << fileType << std::endl;
         File << comments<< std::endl;;
-        File << widthheight << std::endl;;
+        File << "1500 1500"<< std::endl;;
         File << greyscale << std::endl;;
         File.write(mem, blocksize);
         File.close();
