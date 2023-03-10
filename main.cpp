@@ -32,7 +32,9 @@ int main (int argc, char** argv)
 
     char * mem;
     
+    //stores all extracted image frames
     std::vector<unsigned char **> imageSequence; //stores all extracted image frames
+
 
     //open the image in binary format
     ifstream file("sloan_image.pgm", ios::in|ios::binary);
@@ -74,10 +76,20 @@ int main (int argc, char** argv)
     else {cout << "Unable to open file" << std::endl;}
 
      
-    std::cout << blocksize << std::endl;
+    char values[height][width]; //create 2D vector to store values from file in [x][y] format
+	
+    //test values from user input, no user input yet
+    int xstart = 0;
+    int xend = 1500;
+    int ystart = 0; 
+    int yend = 4130;
+    
+    //gradient used for file path
+    int gradient = (yend-ystart)/(xend-xstart);
 
-    char values[height][width];
-	int index = 0;
+    
+
+    int index = 0;
 
     for (int x = 0; x < height; x++ )
     {
