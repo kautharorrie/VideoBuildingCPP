@@ -9,10 +9,16 @@
 #include <cmath>
 
 
+#include "FrameSequence.h"
+
+
 using namespace std;
 int main (int argc, char** argv)
 {
     std::cout << "Hello World!" << std::endl;
+    ORRKAU001::FrameSequence frame;
+
+    frame.helloworld();
 
 
 
@@ -40,6 +46,42 @@ int main (int argc, char** argv)
     //     delete[] input[j];
     // }
     // delete[] input;
+
+    ///////////////////////////testing 
+    ///////////// testing 2D array
+    // int wi = 1000;
+    // int gi = 400;
+    // unsigned char** input = new unsigned char*[wi];
+    // for (int f = 0; f < wi; f++)
+    // {
+    //     input[f] = new unsigned char[wi];
+    // }
+    // int in = 0;
+    // int out = 0;
+    //     for (int g = 0; g < wi; g++){
+    //         out = 0;
+    //         for (int l = 0; l < wi; l++ )
+    //         {
+
+    //             input[in][out] = in+out;
+                
+    //             std::cout << "[" << in << "]" << "[" << out << "]" << " [" << g << "]" << "[" << l << "]"  << std::endl;
+    //             out++;
+    //         }
+    //         in++;
+    //     }
+
+    // printing out the array
+    //     for (int g = 5; g <gi; g++ )
+    //     {
+    //         for (int l = 5; l <gi; l++ )
+    //         {
+    //             std::cout << input[g][l] ;
+                
+    //         }
+            
+    //     }
+    //     std::cout << "End.. " << std::endl;
 
 
     //////////////////// file opening and manipulation //////////////
@@ -106,18 +148,18 @@ int main (int argc, char** argv)
     }
     else {cout << "Unable to open file" << std::endl;}
 
-     
-    unsigned char values[height][width]; //create 2D vector to store values from file in [x][y] format
+    //create 2D vector to store values from file in [x][y] format
+    unsigned char values[height][width]; 
 
     //create a 2D array for the overall image (the whole image)
     int index = 0;
-
     for (int a = 0; a < height; a++ )
     {
         for (int b = 0; b <width; b++ )
         {
 
             values[a][b] = memblock[index];
+    
             index++; 
         }
     }
@@ -139,35 +181,55 @@ int main (int argc, char** argv)
     
     mem = new char [frameWidth*frameHeight];
     std::cout << "gradient: " << gradient << std::endl;
+
+    int wi = 1000;
+    int gi = 400;
+    // unsigned char** input = new unsigned char*[wi];
+    // for (int f = 0; f < wi; f++)
+    // {
+    //     input[f] = new unsigned char[wi];
+    // }
+    // int in = 0;
+    // int out = 0;
+    //     for (int g = 0; g < wi; g++){
+    //         out = 0;
+    //         for (int l = 0; l < wi; l++ )
+    //         {
+
+    //             input[in][out] = values[g][l];
+                
+    //             out++;
+    //         }
+    //         in++;
+    //     }
+
     for (int x = xstart+1  ; x < xend ; ++x)
     {   
         // x is already defined
         y += gradient;
         //frame coordinate = the new (x, y)
         
-        std::cout << "x value: " << x << " y value: " << y << std::endl;
-
-
-        //declare 2D array 
-        unsigned char** input = new unsigned char*[frameHeight];
-        for (int i = 0; i < frameWidth; i++)
+        unsigned char** input = new unsigned char*[wi];
+        for (int f = 0; f < wi; f++)
         {
-            input[i] = new unsigned char[frameWidth];
+            input[f] = new unsigned char[wi];
         }
 
 
         int in = 0;
         int out = 0;
-        for (int i = x; i < frameHeight; i++ )
-        {
-            for (int j = round(y); j < frameWidth; y++ )
+        for (int g = x; g < frameHeight; g++){
+            out = 0;
+            for (int l = round(y); l < frameWidth; l++ )
             {
-                input[in][out] = values[i][j];
-                in++;
+
+                input[in][out] = values[g][l];
+                
                 out++;
             }
+            in++;
         }
-        //imageSequence.push_back(input);
+        imageSequence.push_back(input);
     
     }
 
@@ -176,10 +238,10 @@ int main (int argc, char** argv)
         {
             for (int j = 0; j < frameWidth; j++ )
             {
-                mem[k] = values[i][j];
+                mem[k] = imageSequence[98][i][j];
                 k++;
             }
-        }
+    }
 
 
 
@@ -217,6 +279,13 @@ int main (int argc, char** argv)
     }
     delete[] memblock;
     delete[] mem;
+
+
+    // for (int j = 0; j < wi; j++)
+    // {
+    //     delete[] input[wi];
+    // }
+    // delete[] input;
     return 0;
 }
 

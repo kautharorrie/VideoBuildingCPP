@@ -27,16 +27,17 @@ namespace ORRKAU001
     class FrameSequence
     {
         
-        //non parametised constructor
-        FrameSequence(void);
-
-        //destructor
-        ~FrameSequence();
         public:
 
             void helloworld();
 
-        void helloworld();
+            //non parametised constructor
+            FrameSequence(void);
+
+            //destructor
+            ~FrameSequence();
+
+        //void helloworld();
 
     };
     
