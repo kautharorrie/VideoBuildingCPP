@@ -26,18 +26,29 @@ namespace ORRKAU001
     //create FrameSequence class
     class FrameSequence
     {
-        
+
+
+        //public functions
         public:
-
-            void helloworld();
-
             //non parametised constructor
             FrameSequence(void);
 
             //destructor
             ~FrameSequence();
 
-        //void helloworld();
+            std::vector<unsigned char **> imageSequence; //stores all extracted image frames
+            
+            /// FUNCTIONS //
+            void helloworld(); //tester functions
+
+            void none(void); //print out frames as is
+
+            void reverse(void); //print frames from first to last
+
+            void invert(void); //print all v characters to 255-v
+            
+            void revinvert(void); //print in reverse and invert
+
 
     };
     
