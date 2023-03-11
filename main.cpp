@@ -7,6 +7,9 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 
 #include "FrameSequence.h"
@@ -33,7 +36,7 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++ )
     {
         std::string g = argv[i];
-        std::cout << "Value for i: " <<  g <<std::endl;
+        std::cout << "Value for i: " <<  g << std::endl;
         
         if (g == "-t")
         {
@@ -52,6 +55,21 @@ int main(int argc, char *argv[])
         }
         
     }
+
+    for ( int i = 1; i <= 5; ++i )
+   {
+      std::ostringstream str;
+      str << "invert" << std::setw(4) << std::setfill('0') << i << ".pgm";
+      std::cout << str.str() << std::endl;
+      std::ofstream wf(str.str(), ios::out | ios::binary);
+        if(!wf) {
+            cout << "Cannot open file!" << endl;
+            return 1;
+        }
+        else{std::cout << "File opened." << std::endl;}
+   }
+
+   
 
 
 
