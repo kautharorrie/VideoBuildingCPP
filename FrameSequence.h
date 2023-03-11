@@ -22,6 +22,25 @@
 //declaring my namespace with my student number
 namespace ORRKAU001
 {
+
+    //create FrameSequence class
+    class FrameSequence
+    {
+        
+        //non parametised constructor
+        FrameSequence(void);
+
+        //destructor
+        ~FrameSequence();
+        public:
+
+            void helloworld();
+
+        void helloworld();
+
+    };
+    
 }
+    
 
 #endif
