@@ -19,6 +19,10 @@ int main (int argc, char** argv)
     ORRKAU001::FrameSequence frame;
 
     frame.helloworld();
+    frame.invert();
+    frame.none();
+    frame.reverse();
+    frame.revinvert();
 
 
 
