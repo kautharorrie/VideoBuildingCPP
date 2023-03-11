@@ -26,10 +26,18 @@ namespace ORRKAU001
     //create FrameSequence class
     class FrameSequence
     {
-
-
         //public functions
         public:
+                
+            std::string fileType = "P5";
+            std::string comments = "# extracted frame";
+            std::string widthheight = "";
+            int width = 0 ;
+            int height = 0; 
+            std::string greyscale = "255";
+
+            std::string x1, y1, x2, y2;
+
             //non parametised constructor
             FrameSequence(void);
 
@@ -48,6 +56,10 @@ namespace ORRKAU001
             void invert(void); //print all v characters to 255-v
             
             void revinvert(void); //print in reverse and invert
+
+            void addToVector(unsigned char** frame);
+
+            void setStartAndEnd(std::string x1, std::string y1, std::string x2, std::string y2);
 
 
 
