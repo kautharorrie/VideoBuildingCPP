@@ -40,14 +40,16 @@ int main(int argc, char *argv[])
         
         if (g == "-t")
         {
+            //get the start and end points from user input
             int xstart = std::stoi(argv[i+1]);
             int ystart = std::stoi(argv[i+2]);
             int xend = std::stoi(argv[i+3]);
             int yend = std::stoi(argv[i+4]); 
 
+            frame.setStartAndEnd(xstart, ystart, xend, yend);
             ////
             //set the start and end points
-            
+
             std::cout << "start: " << xstart << "x end: " << xend << " y start: " <<  ystart << " y end: " <<  yend <<std::endl;
             i = i+4;
         }
@@ -55,6 +57,11 @@ int main(int argc, char *argv[])
         {
             int frameWidth = std::stoi(argv[i+1]);
             int frameHeight = std::stoi(argv[i+2]);
+
+            frame.setWidthHeight(frameWidth, frameHeight);
+
+            ////extract frames here (because after -s tag there is no more input stuff)
+
             std::cout << "Value for w: " << frameWidth << " value for h: " <<  frameHeight <<std::endl;
             i = i+2;
         }

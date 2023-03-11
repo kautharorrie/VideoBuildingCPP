@@ -26,6 +26,7 @@ namespace ORRKAU001
     //create FrameSequence class
     class FrameSequence
     {
+        int x1, y1, x2, y2, w, h;
         //public functions
         public:
                 
@@ -36,7 +37,7 @@ namespace ORRKAU001
             int height = 0; 
             std::string greyscale = "255";
 
-            std::string x1, y1, x2, y2;
+            //int x1, y1, x2, y2, w, h;
 
             //non parametised constructor
             FrameSequence(void);
@@ -49,18 +50,20 @@ namespace ORRKAU001
             /// FUNCTIONS //
             void helloworld(); //tester functions
 
-            void none(void); //print out frames as is
+            void none(std::string filename); //print out frames as is
 
-            void reverse(void); //print frames from first to last
+            void reverse(std::string filename); //print frames from first to last
 
-            void invert(void); //print all v characters to 255-v
+            void invert(std::string filename); //print all v characters to 255-v
             
-            void revinvert(void); //print in reverse and invert
+            void revinvert(std::string filename); //print in reverse and invert
 
             void addToVector(unsigned char** frame);
 
-            void setStartAndEnd(std::string x1, std::string y1, std::string x2, std::string y2);
-
+            void setStartAndEnd(int x1, int y1, int x2, int y2);
+            
+            void setWidthHeight(int w, int h);
+            
 
 
     };
