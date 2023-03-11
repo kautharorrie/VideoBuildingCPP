@@ -19,13 +19,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     std::cout << "Hello World!" << std::endl;
-    // ORRKAU001::FrameSequence frame;
-
-    // frame.helloworld();
-    // frame.invert();
-    // frame.none();
-    // frame.reverse();
-    // frame.revinvert();
+    ORRKAU001::FrameSequence frame; //create an instance of the FrameSequence class
 
     if (argc == 1)
     {
@@ -33,24 +27,42 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    for (int i = 1; i < argc; i++ )
+    std::string filename = argv[1]; //get filename from the user
+    
+    //// extract the file contents here using the filename
+
+
+    //looping through the user input
+    for (int i = 2; i < argc; i++ )
     {
         std::string g = argv[i];
         std::cout << "Value for i: " <<  g << std::endl;
         
         if (g == "-t")
         {
-            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
-            i = i+2;
+            int xstart = std::stoi(argv[i+1]);
+            int ystart = std::stoi(argv[i+2]);
+            int xend = std::stoi(argv[i+3]);
+            int yend = std::stoi(argv[i+4]); 
+
+            ////
+            //set the start and end points
+            
+            std::cout << "start: " << xstart << "x end: " << xend << " y start: " <<  ystart << " y end: " <<  yend <<std::endl;
+            i = i+4;
         }
         else if (g == "-s")
         {
-            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
+            int frameWidth = std::stoi(argv[i+1]);
+            int frameHeight = std::stoi(argv[i+2]);
+            std::cout << "Value for w: " << frameWidth << " value for h: " <<  frameHeight <<std::endl;
             i = i+2;
         }
         else if (g == "-w")
         {
-            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
+            std::string method = argv[i+1]; //gets the method the frames need to be extracted at
+            std::string fileName = argv[i+2];
+            std::cout << "Value for w: " << method << " value for h: " <<  fileName <<std::endl;
             i = i+2;
         }
         
@@ -59,7 +71,7 @@ int main(int argc, char *argv[])
     for ( int i = 1; i <= 5; ++i )
    {
       std::ostringstream str;
-      str << "invert" << std::setw(4) << std::setfill('0') << i << ".pgm";
+      str << "invert" << "-" << std::setw(4) << std::setfill('0') << i << ".pgm";
       std::cout << str.str() << std::endl;
       std::ofstream wf(str.str(), ios::out | ios::binary);
         if(!wf) {
