@@ -37,7 +37,7 @@ namespace ORRKAU001
             ~FrameSequence();
 
             std::vector<unsigned char **> imageSequence; //stores all extracted image frames
-            
+
             /// FUNCTIONS //
             void helloworld(); //tester functions
 
@@ -48,6 +48,7 @@ namespace ORRKAU001
             void invert(void); //print all v characters to 255-v
             
             void revinvert(void); //print in reverse and invert
+
 
 
     };
