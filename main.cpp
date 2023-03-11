@@ -32,8 +32,25 @@ int main(int argc, char *argv[])
 
     for (int i = 1; i < argc; i++ )
     {
-        std::cout << "Value for i: " <<  argv[i] <<std::endl;
-        i = i +2;
+        std::string g = argv[i];
+        std::cout << "Value for i: " <<  g <<std::endl;
+        
+        if (g == "-t")
+        {
+            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
+            i = i+2;
+        }
+        else if (g == "-s")
+        {
+            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
+            i = i+2;
+        }
+        else if (g == "-w")
+        {
+            std::cout << "Value for w: " << argv[i+1] << " value for h: " <<  argv[i+2] <<std::endl;
+            i = i+2;
+        }
+        
     }
 
 
