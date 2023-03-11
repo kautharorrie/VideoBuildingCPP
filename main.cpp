@@ -6,12 +6,43 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 
 using namespace std;
 int main (int argc, char** argv)
 {
     std::cout << "Hello World!" << std::endl;
+
+
+
+    ////////////// vector initialisation //////////////////
+
+    // std::vector<unsigned char **> imageSequence; //stores all extracted image frames
+
+    // std::cout << "vector size: " << imageSequence.size() << std::endl;
+
+    // unsigned char** input = new unsigned char*[50];
+    // for (int i = 0; i < 50; i++)
+    // {
+    //     input[i] = new unsigned char[50];
+    // }
+
+    // input[0][0] = 255;
+    // std::cout << "input value: " << input[0] << std::endl;
+    // imageSequence.push_back(input);
+    // std::cout << "vector size: " << imageSequence.size() << std::endl;
+    // std::cout << "vector input: " << imageSequence[0][0][0] << std::endl;
+    
+
+    // for (int j = 0; j < 50; j++)
+    // {
+    //     delete[] input[j];
+    // }
+    // delete[] input;
+
+
+    //////////////////// file opening and manipulation //////////////
     std::cout << "The file is being read..." << std::endl;
 	std::string f;
     std::string filename = "sloan_image.pgm";
@@ -76,50 +107,90 @@ int main (int argc, char** argv)
     else {cout << "Unable to open file" << std::endl;}
 
      
-    char values[height][width]; //create 2D vector to store values from file in [x][y] format
-	
-    //test values from user input, no user input yet
-    int xstart = 0;
-    int xend = 1500;
-    int ystart = 0; 
-    int yend = 4130;
-    
-    //gradient used for file path
-    int gradient = (yend-ystart)/(xend-xstart);
+    unsigned char values[height][width]; //create 2D vector to store values from file in [x][y] format
 
-    
-
+    //create a 2D array for the overall image (the whole image)
     int index = 0;
 
-    for (int x = 0; x < height; x++ )
+    for (int a = 0; a < height; a++ )
     {
-        for (int y = 0; y <width; y++ )
+        for (int b = 0; b <width; b++ )
         {
 
-            values[x][y] = memblock[index];
+            values[a][b] = memblock[index];
             index++; 
         }
     }
 
-    mem = new char [blocksize];
-    int in = 0;
-    for (int x = 0; x < 1500; x++ )
-    {
-        for (int y = 1500; y <3000; y++ )
+    //test values from user input, no user input yet
+    int xstart = 0;
+    int xend = 100;
+    int ystart = 0; 
+    int yend = 500;
+    
+    //variables for the frame width
+    int frameWidth = 640;
+    int frameHeight = 480; 
+    
+    //gradient used for file path
+    int gradient = (yend-ystart)/(xend-xstart);
+
+    float y = ystart;
+    
+    mem = new char [frameWidth*frameHeight];
+    std::cout << "gradient: " << gradient << std::endl;
+    for (int x = xstart+1  ; x < xend ; ++x)
+    {   
+        // x is already defined
+        y += gradient;
+        //frame coordinate = the new (x, y)
+        
+        std::cout << "x value: " << x << " y value: " << y << std::endl;
+
+
+        //declare 2D array 
+        unsigned char** input = new unsigned char*[frameHeight];
+        for (int i = 0; i < frameWidth; i++)
         {
-            mem[in] = values[x][y];
-            
-            in++;
+            input[i] = new unsigned char[frameWidth];
         }
+
+
+        int in = 0;
+        int out = 0;
+        for (int i = x; i < frameHeight; i++ )
+        {
+            for (int j = round(y); j < frameWidth; y++ )
+            {
+                input[in][out] = values[i][j];
+                in++;
+                out++;
+            }
+        }
+        //imageSequence.push_back(input);
+    
     }
 
+    int k = 0;
+    for (int i = 0; i < frameHeight; i++ )
+        {
+            for (int j = 0; j < frameWidth; j++ )
+            {
+                mem[k] = values[i][j];
+                k++;
+            }
+        }
+
+
+
+    std::cout << "The vector size is: " << imageSequence.size() << std::endl;
     ofstream File("image.pgm", ios::in|ios::binary);
     if (File.is_open())
     {
         //file.seekg (0, ios::beg); //get the first position
         File << fileType << std::endl;
         File << comments<< std::endl;;
-        File << "1500 1500"<< std::endl;;
+        File << "640 480"<< std::endl;;
         File << greyscale << std::endl;;
         File.write(mem, blocksize);
         File.close();
