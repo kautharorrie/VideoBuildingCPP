@@ -17,7 +17,10 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <cstdlib>
+#include <cmath>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 
 //declaring my namespace with my student number
 namespace ORRKAU001
@@ -26,7 +29,7 @@ namespace ORRKAU001
     //create FrameSequence class
     class FrameSequence
     {
-        int x1, y1, x2, y2, w, h;
+        //int x1, y1, x2, y2, w, h;
         //public functions
         public:
                 
@@ -37,7 +40,7 @@ namespace ORRKAU001
             int height = 0; 
             std::string greyscale = "255";
 
-            //int x1, y1, x2, y2, w, h;
+            int x1, y1, x2, y2, w, h;
 
             //non parametised constructor
             FrameSequence(void);
@@ -63,6 +66,8 @@ namespace ORRKAU001
             void setStartAndEnd(int x1, int y1, int x2, int y2);
             
             void setWidthHeight(int w, int h);
+
+            void extractFrames(unsigned char ** values);
             
 
 
