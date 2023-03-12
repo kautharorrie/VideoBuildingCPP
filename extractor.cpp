@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 {
     std::cout << "Hello World!" << std::endl;
     ORRKAU001::FrameSequence frame; //create an instance of the FrameSequence class
+
+    
     
     //test values from user input, no user input yet
     int xstart = 0;
@@ -109,14 +111,21 @@ int main(int argc, char *argv[])
             index++; 
         }
     }
-    
+
+
+    delete[] memblock; //delete the file contents extracted from reading the file 
+
     frame.extractFrames(values);
+    frame.none("hellp", frameWidth, frameHeight, blocksize);
+    frame.reverse("reverse", frameWidth, frameHeight, blocksize);
 
     for (int j = 0; j < width; j++)
     {
         delete[] values[width];
     }
     delete[] values;
+
+    
 
 
     return 0;

@@ -53,9 +53,9 @@ namespace ORRKAU001
             /// FUNCTIONS //
             void helloworld(); //tester functions
 
-            void none(std::string filename); //print out frames as is
+            void none(std::string filename, int width, int height, int blocksize); //print out frames as is
 
-            void reverse(std::string filename); //print frames from first to last
+            void reverse(std::string filename, int width, int height, int blocksize); //print frames from first to last
 
             void invert(std::string filename); //print all v characters to 255-v
             

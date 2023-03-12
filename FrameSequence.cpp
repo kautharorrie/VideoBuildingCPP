@@ -1,8 +1,16 @@
 #include "FrameSequence.h"
 
-ORRKAU001::FrameSequence::FrameSequence(void){}    
+//constructor implementation
+ORRKAU001::FrameSequence::FrameSequence(void)
+{
 
-ORRKAU001::FrameSequence::~FrameSequence(){}
+} 
+
+//destructor implementation
+ORRKAU001::FrameSequence::~FrameSequence()
+{
+  
+}
 
 void ORRKAU001::FrameSequence::helloworld()
 {
@@ -11,17 +19,98 @@ void ORRKAU001::FrameSequence::helloworld()
 
 //print the frames out normally
 //takes in the filename to where the frames are written to
-void ORRKAU001::FrameSequence::none(std::string filename)
+void ORRKAU001::FrameSequence::none(std::string filename, int width, int height, int blocksize)
 {
     std::cout << "none" << std::endl;
+    char * mem;
+    mem = new char [width*height];
+
+    for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
+    {
+
+        int k = 0;
+        for (int i = 0; i < height; i++ )
+        {
+            for (int j = 0; j < width; j++ )
+            {
+                mem[k] = ORRKAU001::FrameSequence::imageSequence[v][i][j];
+                k++;
+            }
+        }
+        
+      std::ostringstream str;
+      str << "sequence" << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      std::string filename = str.str();
+      
+      //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
+        std::fstream File("data/" + filename, std::ios::out |std::ios::binary);
+        if (File.is_open())
+        {
+            //file.seekg (0, ios::beg); //get the first position
+            File << fileType << std::endl;
+            File << comments<< std::endl;;
+            File << "640 480"<< std::endl;;
+            File << greyscale << std::endl;;
+            File.write(mem, blocksize);
+            File.close();
+
+        }
+        else 
+        {
+            std::cout << "Unable to open file" << std::endl;
+        }
+        
+    }
+
 }   
 
 //print the frames out in reverse
 //takes in the filename to where the frames are written to
-void ORRKAU001::FrameSequence::reverse(std::string filename)
+void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, int blocksize)
 {
     std::cout << "reverse" << std::endl;
+
+    std::cout << "none" << std::endl;
+    char * mem;
+    mem = new char [width*height];
+
+    int count = 0;
+    for (int v = ORRKAU001::FrameSequence::imageSequence.size() -1; v >= 0; v--)
+    {
+
+        int k = 0;
+        for (int i = 0; i < height; i++ )
+        {
+            for (int j = 0; j < width; j++ )
+            {
+                mem[k] = ORRKAU001::FrameSequence::imageSequence[v][i][j];
+                k++;
+            }
+        }
+        
+      std::ostringstream str;
+      str << file << "-" << std::setw(4) << std::setfill('0') << count << ".pgm";
+      std::string filename = str.str();
+      
+      //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
+        std::fstream File("reverse/" + filename, std::ios::out |std::ios::binary);
+        if (File.is_open())
+        {
+            //file.seekg (0, ios::beg); //get the first position
+            File << fileType << std::endl;
+            File << comments<< std::endl;;
+            File << "640 480"<< std::endl;;
+            File << greyscale << std::endl;;
+            File.write(mem, blocksize);
+            File.close();
+
+        }
+    else {std::cout << "Unable to open file" << std::endl;}
+    count++;
+    }
+
 }
+
 
 //invert the frames 
 //takes in the filename to where the frames are written to
@@ -88,14 +177,14 @@ void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values)
         int y = round(yy);
         int x = xx;
     
-        for (int g = 0; g < 5; g++){
+        for (int g = 0; g < ORRKAU001::FrameSequence::h ; g++){
             y = round(yy);
             //std::cout << "check x: " << xx << std::endl;
-            for (int l = 0; l < 5; l++)
+            for (int l = 0; l < ORRKAU001::FrameSequence::w; l++)
             {
                 //std::cout << "( " << x  << " "<< y << " )" << std::endl;
                 input[g][l] = values[x][y];
-                std::cout <<  x << " " << y << std::endl;
+                //std::cout <<  x << " " << y << std::endl;
                 y++;
 
             }
