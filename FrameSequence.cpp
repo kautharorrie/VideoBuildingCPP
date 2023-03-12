@@ -171,7 +171,8 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
     char * mem;
     mem = new char [width*height];
     
-    for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
+    int count = 0;
+    for (int v = ORRKAU001::FrameSequence::imageSequence.size() -1; v >= 0; v--)
     {
 
         int k = 0;
@@ -191,7 +192,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("invert/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File("revinvert/" + filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -207,6 +208,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
         {
             std::cout << "Unable to open file" << std::endl;
         }
+        count++;
         
     }
 }

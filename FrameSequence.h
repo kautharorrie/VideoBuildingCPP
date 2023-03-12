@@ -59,7 +59,7 @@ namespace ORRKAU001
 
             void invert(std::string file, int width, int height, int blocksize); //print all v characters to 255-v
             
-            void revinvert(std::string file, int width, int height, int blocksize); //print in reverse and invert
+            void revinvert(std::string file, int width, int height, int blocksize);  //print in reverse and invert
 
             void addToVector(unsigned char** frame);
 
