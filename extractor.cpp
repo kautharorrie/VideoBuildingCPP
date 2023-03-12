@@ -116,8 +116,10 @@ int main(int argc, char *argv[])
     delete[] memblock; //delete the file contents extracted from reading the file 
 
     frame.extractFrames(values);
-    frame.none("hellp", frameWidth, frameHeight, blocksize);
+    frame.none("none", frameWidth, frameHeight, blocksize);
     frame.reverse("reverse", frameWidth, frameHeight, blocksize);
+    frame.invert("invert", frameWidth, frameHeight, blocksize);
+    frame.revinvert("revinvert", frameWidth, frameHeight, blocksize);
 
     for (int j = 0; j < width; j++)
     {

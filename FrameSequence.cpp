@@ -166,7 +166,6 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
 void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height, int blocksize)
 {
     std::cout << "revinvert" << std::endl;
-    std::cout << "invert" << std::endl;
     std::cout << "none" << std::endl;
     char * mem;
     mem = new char [width*height];
@@ -188,7 +187,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
         }
         
       std::ostringstream str;
-      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      str << file << "-" << std::setw(4) << std::setfill('0') << count << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
