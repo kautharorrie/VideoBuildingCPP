@@ -19,7 +19,7 @@ void ORRKAU001::FrameSequence::helloworld()
 
 //print the frames out normally
 //takes in the filename to where the frames are written to
-void ORRKAU001::FrameSequence::none(std::string filename, int width, int height, int blocksize)
+void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int blocksize)
 {
     std::cout << "none" << std::endl;
     char * mem;
@@ -39,11 +39,11 @@ void ORRKAU001::FrameSequence::none(std::string filename, int width, int height,
         }
         
       std::ostringstream str;
-      str << "sequence" << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("data/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File("none/" + filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -114,16 +114,101 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
 
 //invert the frames 
 //takes in the filename to where the frames are written to
-void ORRKAU001::FrameSequence::invert(std::string filename)
+void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, int blocksize)
 {
     std::cout << "invert" << std::endl;
+    std::cout << "none" << std::endl;
+    char * mem;
+    mem = new char [width*height];
+    
+    for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
+    {
+
+        int k = 0;
+        for (int i = 0; i < height; i++ )
+        {
+            for (int j = 0; j < width; j++ )
+            {
+                unsigned char val = 255-ORRKAU001::FrameSequence::imageSequence[v][i][j];
+                
+                mem[k] = val;
+                k++;
+            }
+        }
+        
+      std::ostringstream str;
+      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      std::string filename = str.str();
+      
+      //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
+        std::fstream File("invert/" + filename, std::ios::out |std::ios::binary);
+        if (File.is_open())
+        {
+            //file.seekg (0, ios::beg); //get the first position
+            File << fileType << std::endl;
+            File << comments<< std::endl;;
+            File << "640 480"<< std::endl;;
+            File << greyscale << std::endl;;
+            File.write(mem, blocksize);
+            File.close();
+
+        }
+        else 
+        {
+            std::cout << "Unable to open file" << std::endl;
+        }
+        
+    }
 }
 
 //reverse and invert the frames
 //takes in the filename to where the frames are written to
-void ORRKAU001::FrameSequence::revinvert(std::string filename)
+void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height, int blocksize)
 {
     std::cout << "revinvert" << std::endl;
+    std::cout << "invert" << std::endl;
+    std::cout << "none" << std::endl;
+    char * mem;
+    mem = new char [width*height];
+    
+    for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
+    {
+
+        int k = 0;
+        for (int i = 0; i < height; i++ )
+        {
+            for (int j = 0; j < width; j++ )
+            {
+                unsigned char val = 255-ORRKAU001::FrameSequence::imageSequence[v][i][j];
+                
+                mem[k] = val;
+                k++;
+            }
+        }
+        
+      std::ostringstream str;
+      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      std::string filename = str.str();
+      
+      //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
+        std::fstream File("invert/" + filename, std::ios::out |std::ios::binary);
+        if (File.is_open())
+        {
+            //file.seekg (0, ios::beg); //get the first position
+            File << fileType << std::endl;
+            File << comments<< std::endl;;
+            File << "640 480"<< std::endl;;
+            File << greyscale << std::endl;;
+            File.write(mem, blocksize);
+            File.close();
+
+        }
+        else 
+        {
+            std::cout << "Unable to open file" << std::endl;
+        }
+        
+    }
 }
 
 //add a frame to the vector
