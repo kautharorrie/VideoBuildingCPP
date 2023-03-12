@@ -25,6 +25,10 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
     char * mem;
     mem = new char [width*height];
 
+    std::ostringstream str1;
+    str1 << width << " " << height;
+    std::string wh = str1.str(); //converting the width + height to a string to pass into the filename 
+
     for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
     {
 
@@ -49,7 +53,7 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
             //file.seekg (0, ios::beg); //get the first position
             File << fileType << std::endl;
             File << comments<< std::endl;;
-            File << "640 480"<< std::endl;;
+            File << wh << std::endl;;
             File << greyscale << std::endl;;
             File.write(mem, blocksize);
             File.close();
@@ -73,6 +77,10 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
     std::cout << "none" << std::endl;
     char * mem;
     mem = new char [width*height];
+
+    std::ostringstream str1;
+    str1 << width << " " << height;
+    std::string wh = str1.str(); //converting the width + height to a string to pass into the filename 
 
     int count = 0;
     for (int v = ORRKAU001::FrameSequence::imageSequence.size() -1; v >= 0; v--)
@@ -99,7 +107,7 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
             //file.seekg (0, ios::beg); //get the first position
             File << fileType << std::endl;
             File << comments<< std::endl;;
-            File << "640 480"<< std::endl;;
+            File << wh << std::endl;;
             File << greyscale << std::endl;;
             File.write(mem, blocksize);
             File.close();
@@ -120,6 +128,10 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
     std::cout << "none" << std::endl;
     char * mem;
     mem = new char [width*height];
+    
+    std::ostringstream str1;
+    str1 << width << " " << height;
+    std::string wh = str1.str(); //converting the width + height to a string to pass into the filename 
     
     for (int v = 0; v < ORRKAU001::FrameSequence::imageSequence.size(); v++)
     {
@@ -147,7 +159,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
             //file.seekg (0, ios::beg); //get the first position
             File << fileType << std::endl;
             File << comments<< std::endl;;
-            File << "640 480"<< std::endl;;
+            File << wh << std::endl;;
             File << greyscale << std::endl;;
             File.write(mem, blocksize);
             File.close();
@@ -169,6 +181,10 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
     std::cout << "none" << std::endl;
     char * mem;
     mem = new char [width*height];
+
+    std::ostringstream str1;
+    str1 << width << " " << height;
+    std::string wh = str1.str(); //converting the width + height to a string to pass into the filename 
     
     int count = 0;
     for (int v = ORRKAU001::FrameSequence::imageSequence.size() -1; v >= 0; v--)
@@ -197,7 +213,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
             //file.seekg (0, ios::beg); //get the first position
             File << fileType << std::endl;
             File << comments<< std::endl;;
-            File << "640 480"<< std::endl;;
+            File << wh << std::endl;;
             File << greyscale << std::endl;;
             File.write(mem, blocksize);
             File.close();
@@ -234,24 +250,24 @@ void ORRKAU001::FrameSequence::setWidthHeight(int width, int height)
     ORRKAU001::FrameSequence::h = height;
 }
 
-void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values)
+void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values, int x1, int y1, int x2, int y2, int frameWidth, int frameHeight )
 {
     std::cout << "extract frames." << std::endl;
 
-    int gradient = (ORRKAU001::FrameSequence::y2-ORRKAU001::FrameSequence::y1)/(ORRKAU001::FrameSequence::x2-ORRKAU001::FrameSequence::x1);
+    float gradient = (y2-y1)/(x2-x1);
     
-    float yy = ORRKAU001::FrameSequence::y1;
+    float yy = y1;
     
     std::cout << "gradient: " << gradient << std::endl;
     
     int wi = 10000;
     int gi = 400;
     
-    for (int xx = ORRKAU001::FrameSequence::x1+1  ; xx < ORRKAU001::FrameSequence::x2 ; ++xx)
+    for (int xx = x1+1  ; xx < x2 ; ++xx)
     {   
         // x is already defined
         yy += gradient; 
-        //std::cout <<  yy << " " << xx << std::endl;
+        std::cout <<  yy << " " << xx << std::endl;
         //frame coordinate = the new (x, yy)
   
         unsigned char** input = new unsigned char*[800];
@@ -263,10 +279,10 @@ void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values)
         int y = round(yy);
         int x = xx;
     
-        for (int g = 0; g < ORRKAU001::FrameSequence::h ; g++){
+        for (int g = 0; g < frameHeight ; g++){
             y = round(yy);
             //std::cout << "check x: " << xx << std::endl;
-            for (int l = 0; l < ORRKAU001::FrameSequence::w; l++)
+            for (int l = 0; l < frameWidth; l++)
             {
                 //std::cout << "( " << x  << " "<< y << " )" << std::endl;
                 input[g][l] = values[x][y];

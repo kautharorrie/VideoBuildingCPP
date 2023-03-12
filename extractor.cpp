@@ -24,15 +24,15 @@ int main(int argc, char *argv[])
     
     //test values from user input, no user input yet
     int xstart = 0;
+    int ystart = 0;
     int xend = 100;
-    int ystart = 0; 
-    int yend = 500;
+    int yend = 100;
     
     //variables for the frame width
     int frameWidth = 640;
     int frameHeight = 480; 
 
-    frame.setStartAndEnd(0, 0, 100, 500);
+    frame.setStartAndEnd(xstart, ystart, xend, yend);
     frame.setWidthHeight(frameWidth, frameHeight);
 
 
@@ -115,11 +115,11 @@ int main(int argc, char *argv[])
 
     delete[] memblock; //delete the file contents extracted from reading the file 
 
-    frame.extractFrames(values);
+    frame.extractFrames(values, xstart, ystart, xend, yend, frameWidth, frameWidth);
     frame.none("none", frameWidth, frameHeight, blocksize);
-    frame.reverse("reverse", frameWidth, frameHeight, blocksize);
-    frame.invert("invert", frameWidth, frameHeight, blocksize);
-    frame.revinvert("revinvert", frameWidth, frameHeight, blocksize);
+    //frame.reverse("reverse", frameWidth, frameHeight, blocksize);
+    //frame.invert("invert", frameWidth, frameHeight, blocksize);
+    //frame.revinvert("revinvert", frameWidth, frameHeight, blocksize);
 
     for (int j = 0; j < width; j++)
     {
