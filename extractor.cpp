@@ -1,5 +1,4 @@
 //includes 
-
 #include "FrameSequence.h"
 
 /*
