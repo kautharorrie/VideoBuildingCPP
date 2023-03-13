@@ -1,6 +1,6 @@
 /**
  * .h file 
- * Simple Tag Enumeration Assignment 1 
+ * Assignment 2
  * CSC3022F 
  * Author: Kauthar Orrie
  *
@@ -25,34 +25,32 @@
 //declaring my namespace with my student number
 namespace ORRKAU001
 {
-
     //create FrameSequence class
     class FrameSequence
     {
-        //int x1, y1, x2, y2, w, h;
         //public functions
         public:
-                
+            // public variables to store the filename, comments and greyscale of the file details
             std::string fileType;
             std::string comments;
             std::string widthheight;
-            int width;
-            int height;
+            int width; int height;
             std::string greyscale;
 
+            //variables to store the start and end coordinates and the width and height of the extracted frame
             int x1, y1, x2, y2, w, h;
-
-            //non parametised constructor
-            FrameSequence(void);
-
-            //destructor
-            ~FrameSequence();
 
             std::vector<unsigned char **> imageSequence; //stores all extracted image frames
 
-            /// FUNCTIONS //
-            void helloworld(); //tester functions
+            //non parametised constructor declaration
+            FrameSequence(void);
 
+            //destructor declaration
+            ~FrameSequence();
+
+            /// PUBLIC FUNCTIONS //
+            // NOTE:: all method implementation and their explanations are found inside the .cpp file (FrameSequence.cpp) //
+        
             void none(std::string filename, int width, int height, int blocksize); //print out frames as is
 
             void reverse(std::string filename, int width, int height, int blocksize); //print frames from first to last
@@ -68,8 +66,6 @@ namespace ORRKAU001
             void setWidthHeight(int w, int h);
 
             void extractFrames(unsigned char ** values, int x1, int y1, int x2, int y2, int frameWidth, int frameHeight);
-            
-
 
     };
     
