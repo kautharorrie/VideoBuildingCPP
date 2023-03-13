@@ -254,35 +254,17 @@ int main(int argc, char *argv[])
 
     int wi = 1000;
     int gi = 400;
-    // unsigned char** input = new unsigned char*[wi];
-    // for (int f = 0; f < wi; f++)
-    // {
-    //     input[f] = new unsigned char[wi];
-    // }
-    // int in = 0;
-    // int out = 0;
-    //     for (int g = 0; g < wi; g++){
-    //         out = 0;
-    //         for (int l = 0; l < wi; l++ )
-    //         {
-
-    //             input[in][out] = values[g][l];
-                
-    //             out++;
-    //         }
-    //         in++;
-    //     }
-
+    
     for (int x = xstart+1  ; x < xend ; ++x)
     {   
         // x is already defined
         yy += gradient;
         //frame coordinate = the new (x, y)
         //std::cout << "check 1 " << std::endl;
-        unsigned char** input = new unsigned char*[wi];
+        unsigned char** input = new unsigned char*[800];
         for (int f = 0; f < wi; f++)
         {
-            input[f] = new unsigned char[wi];
+            input[f] = new unsigned char[800];
         }
         //std::cout << "check 2 " << std::endl;
         int y = round(yy);

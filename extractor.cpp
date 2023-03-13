@@ -17,7 +17,6 @@
 using namespace std;
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!" << std::endl;
     ORRKAU001::FrameSequence frame; //create an instance of the FrameSequence class
     
     //test values from user input, no user input yet
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
     std::string greyscale = "";
     int val = 0; int blocksize = 0; //size of the block of the file
 
-    char * memblock; //char array to store the contents of the file 
+    char * memblock = NULL; //char array to store the contents of the file 
 
     //if the user input is only 1 input tell the user that there was an error 
     if (argc == 1)
@@ -47,7 +46,6 @@ int main(int argc, char *argv[])
     std::string userfilename = argv[1]; 
  
     //////////////////// file opening and manipulation //////////////
-    std::cout << "The file is being read..." << std::endl;
 
     //open the image in binary format and extract the contents
     ifstream file(userfilename, ios::in|ios::binary);
@@ -83,11 +81,14 @@ int main(int argc, char *argv[])
     }
 
     //create 2D vector to store values from file in [x][y] format
-    unsigned char** values = new unsigned char*[fileheight];
+    unsigned char** values = NULL;
+    values = new unsigned char*[fileheight];
         for (int f = 0; f < filewidth; f++)
         {
+            values[f] = NULL;
             values[f] = new unsigned char[filewidth];
         }
+    
 
     //Populate the 2D array with the pixel values to use later to extract the frames
     int index = 0;
@@ -134,6 +135,7 @@ int main(int argc, char *argv[])
             std::string fileName = argv[i+2];
             if (method == "none")
             {
+                
                 frame.none(fileName, frameWidth, frameHeight, blocksize);
             }
             else if (method == "reverse")
@@ -152,13 +154,14 @@ int main(int argc, char *argv[])
         }
         
     }
- 
+    
+    
     // delete the dynamically stored 2D array from the heap
-    for (int j = 0; j < filewidth; j++)
-    {
-        delete[] values[filewidth];
-    }
-    delete[] values;
+    // for (int j = 0; j < sizeof(values); j++)
+    // {
+    //     delete[] values[j];
+    // }
+    // delete[] values;
 
     return 0;
 

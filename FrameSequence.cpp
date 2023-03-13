@@ -9,15 +9,19 @@ ORRKAU001::FrameSequence::FrameSequence(void)
 //destructor implementation
 ORRKAU001::FrameSequence::~FrameSequence()
 {
+    
     for (int i = 0; i < ORRKAU001::FrameSequence::imageSequence.size() ; i++)
     {
-        unsigned char** p = ORRKAU001::FrameSequence::imageSequence[i];
+        unsigned char** p = NULL; 
+        p = ORRKAU001::FrameSequence::imageSequence[i];
         for (int j = 0; j < sizeof(p); j++)
         {
-            delete[] p[sizeof(p)];
+            //p[j] = NULL;
+            delete[] p[j];
         }
         delete[] p;
     }
+    //std::cout << "Object destroyed" << std::endl;
   
 }
 
@@ -26,8 +30,8 @@ ORRKAU001::FrameSequence::~FrameSequence()
 //takes in the filename to where the frames are written to
 void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int blocksize)
 {
-    std::cout << "none" << std::endl;
-    char * mem;
+    
+    char * mem = NULL;
     mem = new char [width*height];
 
     std::ostringstream str1;
@@ -77,10 +81,7 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
 //takes in the filename to where the frames are written to
 void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, int blocksize)
 {
-    std::cout << "reverse" << std::endl;
-
-    std::cout << "none" << std::endl;
-    char * mem;
+    char * mem = NULL;
     mem = new char [width*height];
 
     std::ostringstream str1;
@@ -130,9 +131,7 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
 //takes in the filename to where the frames are written to
 void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, int blocksize)
 {
-    std::cout << "invert" << std::endl;
-    std::cout << "none" << std::endl;
-    char * mem;
+    char * mem = NULL;
     mem = new char [width*height];
     
     std::ostringstream str1;
@@ -184,9 +183,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
 //takes in the filename to where the frames are written to
 void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height, int blocksize)
 {
-    std::cout << "revinvert" << std::endl;
-    std::cout << "none" << std::endl;
-    char * mem;
+    char * mem = NULL;
     mem = new char [width*height];
 
     std::ostringstream str1;
@@ -236,37 +233,12 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
     delete[] mem;
 }
 
-//add a frame to the vector
-void ORRKAU001::FrameSequence::addToVector(unsigned char** frame)
-{
-    std::cout << "add to vector" << std::endl;
-    ORRKAU001::FrameSequence::imageSequence.push_back(frame);
-}
-
-// set the values for x1, x2, y1, y2
-void ORRKAU001::FrameSequence::setStartAndEnd(int x1, int y1, int x2, int y2)
-{
-    ORRKAU001::FrameSequence::x1 = x1;
-    ORRKAU001::FrameSequence::y1 = y1;
-    ORRKAU001::FrameSequence::x2 = x2;
-    ORRKAU001::FrameSequence::y2 = y2;
-}
-
-void ORRKAU001::FrameSequence::setWidthHeight(int width, int height)
-{
-    ORRKAU001::FrameSequence::w = width;
-    ORRKAU001::FrameSequence::h = height;
-}
-
 void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values, int x1, int y1, int x2, int y2, int frameWidth, int frameHeight )
 {
-    std::cout << "extract frames." << std::endl;
 
     float gradient = (y2-y1)/(x2-x1);
     
     float yy = y1;
-    
-    std::cout << "gradient: " << gradient << std::endl;
     
     int wi = 10000;
     int gi = 400;
@@ -275,13 +247,14 @@ void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values, int x1, in
     {   
         // x is already defined
         yy += gradient; 
-        std::cout <<  yy << " " << xx << std::endl;
         //frame coordinate = the new (x, yy)
-  
-        unsigned char** input = new unsigned char*[800];
-        for (int f = 0; f < wi; f++)
-        {
-            input[f] = new unsigned char[800];
+        
+        unsigned char** input = NULL;
+        input = new unsigned char*[frameHeight];
+        for (int f = 0; f < frameWidth; f++)
+        {   
+            input[f] = NULL;
+            input[f] = new unsigned char[frameWidth];
         }
         
         int y = round(yy);
@@ -303,5 +276,4 @@ void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values, int x1, in
         ORRKAU001::FrameSequence::imageSequence.push_back(input);
     }
 
-    std::cout << "size of vector " << ORRKAU001::FrameSequence::imageSequence.size() << std::endl;
 }
