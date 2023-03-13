@@ -19,46 +19,38 @@ int main(int argc, char *argv[])
 {
     std::cout << "Hello World!" << std::endl;
     ORRKAU001::FrameSequence frame; //create an instance of the FrameSequence class
-
-    
     
     //test values from user input, no user input yet
-    int xstart = 0;
-    int ystart = 0;
-    int xend = 100;
-    int yend = 100;
+    int xstart = 0; int ystart = 0; int xend = 0; int yend = 0;
     
-    //variables for the frame width
-    int frameWidth = 640;
-    int frameHeight = 480; 
+    //variables for the frame width and frame height
+    int frameWidth = 0; int frameHeight = 0; 
 
-    frame.setStartAndEnd(xstart, ystart, xend, yend);
-    frame.setWidthHeight(frameWidth, frameHeight);
-
-
-    //////////////////// file opening and manipulation //////////////
-    std::cout << "The file is being read..." << std::endl;
-	std::string f;
-    std::string filename = "sloan_image.pgm";
-
-    //get file comments
+    //store the file contents like file type, comments, width and height
     std::string fileType = "";
     std::string comments = "";
-    std::string blank = "";
-    std::string widthheight = "";
-    int width = 0 ;
-    int height = 0; 
+    std::string widthheight = ""; 
+    int filewidth = 0 ; int fileheight = 0; //width and height extracted from the file 
     std::string greyscale = "";
-    int val = 0;
-    int blocksize = 0;
+    int val = 0; int blocksize = 0; //size of the block of the file
 
-    streampos size;
-    char * memblock;
+    char * memblock; //char array to store the contents of the file 
 
-    char * mem;
+    //if the user input is only 1 input tell the user that there was an error 
+    if (argc == 1)
+    {
+        std::cout << "Error reading command line input for extracted frames." << std::endl;
+        return 0;
+    }
 
-    //open the image in binary format
-    ifstream file("sloan_image.pgm", ios::in|ios::binary);
+    //get the filename from the user input
+    std::string userfilename = argv[1]; 
+ 
+    //////////////////// file opening and manipulation //////////////
+    std::cout << "The file is being read..." << std::endl;
+
+    //open the image in binary format and extract the contents
+    ifstream file(userfilename, ios::in|ios::binary);
     if (file.is_open())
     {    
         getline(file >> std::ws, fileType);
@@ -73,10 +65,10 @@ int main(int argc, char *argv[])
         std::string w = widthheight.substr(0, g);
         std::string h = widthheight.substr(g+1, widthheight.length());
 
-        width = atoi(w.c_str());
-        height = atoi(h.c_str());
+        filewidth = atoi(w.c_str());
+        fileheight = atoi(h.c_str());
         
-        blocksize = width*height;
+        blocksize = filewidth*fileheight;
         
         memblock = new char [blocksize];
         
@@ -90,45 +82,83 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    std::cout << width << std::endl;
-
-    unsigned char** values = new unsigned char*[height];
-        for (int f = 0; f < width; f++)
+    //create 2D vector to store values from file in [x][y] format
+    unsigned char** values = new unsigned char*[fileheight];
+        for (int f = 0; f < filewidth; f++)
         {
-            values[f] = new unsigned char[width];
+            values[f] = new unsigned char[filewidth];
         }
 
-    //create 2D vector to store values from file in [x][y] format
-    //unsigned char values[height][width]; 
-
-    //create a 2D array for the overall image (the whole image)
+    //Populate the 2D array with the pixel values to use later to extract the frames
     int index = 0;
-    for (int a = 0; a < height; a++ )
+    for (int a = 0; a < fileheight; a++ )
     {
-        for (int b = 0; b < width; b++ )
+        for (int b = 0; b < filewidth; b++ )
         {
             values[a][b] = memblock[index];
             index++; 
         }
     }
 
+    // before extracting the frames delete the file contents from reading the file
+    delete[] memblock; 
 
-    delete[] memblock; //delete the file contents extracted from reading the file 
-
-    frame.extractFrames(values, xstart, ystart, xend, yend, frameWidth, frameWidth);
-    frame.none("none", frameWidth, frameHeight, blocksize);
-    //frame.reverse("reverse", frameWidth, frameHeight, blocksize);
-    //frame.invert("invert", frameWidth, frameHeight, blocksize);
-    //frame.revinvert("revinvert", frameWidth, frameHeight, blocksize);
-
-    for (int j = 0; j < width; j++)
+    //looping through the user input
+    for (int i = 2; i < argc; i++ )
     {
-        delete[] values[width];
+        std::string g = argv[i];
+        
+        if (g == "-t")
+        {
+            //get the start and end points from user input
+            xstart = std::stoi(argv[i+1]);
+            ystart = std::stoi(argv[i+2]);
+            xend = std::stoi(argv[i+3]);
+            yend = std::stoi(argv[i+4]); 
+
+            i = i+4; //skip to the next tag
+        }
+        else if (g == "-s")
+        {
+            frameWidth = std::stoi(argv[i+1]);
+            frameHeight = std::stoi(argv[i+2]);
+
+            ////extract frames here (because after -s tag there is no more input stuff)
+            frame.extractFrames(values, xstart, ystart, xend, yend, frameWidth, frameHeight);
+            
+            i = i+2; //skip to the next tag
+        }
+        else if (g == "-w")
+        {
+            std::string method = argv[i+1]; //gets the method the frames need to be extracted at
+            std::string fileName = argv[i+2];
+            if (method == "none")
+            {
+                frame.none(fileName, frameWidth, frameHeight, blocksize);
+            }
+            else if (method == "reverse")
+            {
+                frame.reverse(fileName, frameWidth, frameHeight, blocksize);
+            }
+            else if (method == "invert")
+            {
+                frame.invert(fileName, frameWidth, frameHeight, blocksize);
+            }
+            else if (method == "revinvert")
+            {
+                frame.revinvert(fileName, frameWidth, frameHeight, blocksize);
+            }
+            i = i+2;
+        }
+        
+    }
+ 
+    // delete the dynamically stored 2D array from the heap
+    for (int j = 0; j < filewidth; j++)
+    {
+        delete[] values[filewidth];
     }
     delete[] values;
-
-    
-
 
     return 0;
 

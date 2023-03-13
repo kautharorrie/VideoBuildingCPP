@@ -21,10 +21,6 @@ ORRKAU001::FrameSequence::~FrameSequence()
   
 }
 
-void ORRKAU001::FrameSequence::helloworld()
-{
-    std::cout << "Hello World!" << std::endl;
-}
 
 //print the frames out normally
 //takes in the filename to where the frames are written to
@@ -56,7 +52,7 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("none/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File(filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -74,7 +70,7 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
         }
         
     }
-
+    delete[] mem;
 }   
 
 //print the frames out in reverse
@@ -110,7 +106,7 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("reverse/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File(filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -125,6 +121,7 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
     else {std::cout << "Unable to open file" << std::endl;}
     count++;
     }
+    delete[] mem;
 
 }
 
@@ -162,7 +159,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("invert/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File(filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -180,6 +177,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
         }
         
     }
+    delete[] mem;
 }
 
 //reverse and invert the frames
@@ -216,7 +214,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
-        std::fstream File("revinvert/" + filename, std::ios::out |std::ios::binary);
+        std::fstream File(filename, std::ios::out |std::ios::binary);
         if (File.is_open())
         {
             //file.seekg (0, ios::beg); //get the first position
@@ -235,6 +233,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
         count++;
         
     }
+    delete[] mem;
 }
 
 //add a frame to the vector
