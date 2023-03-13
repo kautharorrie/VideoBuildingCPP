@@ -117,6 +117,17 @@ int main(int argc, char *argv[])
             xend = std::stoi(argv[i+3]);
             yend = std::stoi(argv[i+4]); 
 
+            if (xstart > fileheight || ystart > filewidth || xend > fileheight || yend > filewidth)
+            {
+                std::cout << "Error. Cannot reach co-ordinates of negative values." << std::endl;
+                return 1;
+            }
+            else if (xstart > 0 || ystart < 0 || xend < 0 || yend < 0)
+            {
+                std::cout << "Error. Cannot reach co-ordinates of negative values." << std::endl;
+                return 1;
+            }
+
             i = i+4; //skip to the next tag
         }
         else if (g == "-s")
