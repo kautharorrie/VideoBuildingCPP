@@ -124,7 +124,17 @@ int main(int argc, char *argv[])
             frameWidth = std::stoi(argv[i+1]);
             frameHeight = std::stoi(argv[i+2]);
 
+            //error checking 
+            //check if the frame width and height is equal to zero (0)
+            if (frameWidth == 0 && frameHeight == 0)
+            {
+                    std::cout << "Error. Cannot read frames of size zero (0, 0)." << std::endl;
+                    return 1;
+
+            }
+
             ////extract frames here (because after -s tag there is no more input stuff)
+            
             frame.extractFrames(values, xstart, ystart, xend, yend, frameWidth, frameHeight);
             
             i = i+2; //skip to the next tag
@@ -133,6 +143,7 @@ int main(int argc, char *argv[])
         {
             std::string method = argv[i+1]; //gets the method the frames need to be extracted at
             std::string fileName = argv[i+2];
+            
             if (method == "none")
             {
                 
@@ -157,7 +168,7 @@ int main(int argc, char *argv[])
     
     
     // delete the dynamically stored 2D array from the heap
-    // for (int j = 0; j < sizeof(values); j++)
+    // for (int j = 0; j < fileheight; j++)
     // {
     //     delete[] values[j];
     // }
