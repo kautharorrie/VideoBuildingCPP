@@ -33,12 +33,12 @@ namespace ORRKAU001
         //public functions
         public:
                 
-            std::string fileType = "P5";
-            std::string comments = "# extracted frame";
-            std::string widthheight = "";
-            int width = 0 ;
-            int height = 0; 
-            std::string greyscale = "255";
+            std::string fileType;
+            std::string comments;
+            std::string widthheight;
+            int width;
+            int height;
+            std::string greyscale;
 
             int x1, y1, x2, y2, w, h;
 

@@ -3,7 +3,13 @@
 //constructor implementation
 ORRKAU001::FrameSequence::FrameSequence(void)
 {
-
+    // initialise public variables
+    ORRKAU001::FrameSequence::fileType = "P5";
+    ORRKAU001::FrameSequence::comments = "# extracted frame";
+    ORRKAU001::FrameSequence::widthheight = "";
+    ORRKAU001::FrameSequence::width = 0;
+    ORRKAU001::FrameSequence::height = 0; 
+    ORRKAU001::FrameSequence::greyscale = "255";
 } 
 
 //destructor implementation
@@ -52,7 +58,7 @@ void ORRKAU001::FrameSequence::none(std::string file, int width, int height, int
         }
         
       std::ostringstream str;
-      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      str << file << "-" << std::setw(5) << std::setfill('0') << v << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
@@ -103,7 +109,7 @@ void ORRKAU001::FrameSequence::reverse(std::string file, int width, int height, 
         }
         
       std::ostringstream str;
-      str << file << "-" << std::setw(4) << std::setfill('0') << count << ".pgm";
+      str << file << "-" << std::setw(5) << std::setfill('0') << count << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
@@ -133,7 +139,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
 {
     char * mem = NULL;
     mem = new char [width*height];
-    
+
     std::ostringstream str1;
     str1 << width << " " << height;
     std::string wh = str1.str(); //converting the width + height to a string to pass into the filename 
@@ -154,7 +160,7 @@ void ORRKAU001::FrameSequence::invert(std::string file, int width, int height, i
         }
         
       std::ostringstream str;
-      str << file << "-" << std::setw(4) << std::setfill('0') << v << ".pgm";
+      str << file << "-" << std::setw(5) << std::setfill('0') << v << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
@@ -207,7 +213,7 @@ void ORRKAU001::FrameSequence::revinvert(std::string file, int width, int height
         }
         
       std::ostringstream str;
-      str << file << "-" << std::setw(4) << std::setfill('0') << count << ".pgm";
+      str << file << "-" << std::setw(5) << std::setfill('0') << count << ".pgm";
       std::string filename = str.str();
       
       //std::ofstream wf("data/" + filename, std::ios::out | std::ios::binary);
@@ -239,41 +245,80 @@ void ORRKAU001::FrameSequence::extractFrames(unsigned char ** values, int x1, in
     float gradient = (y2-y1)/(x2-x1);
     
     float yy = y1;
-    
-    int wi = 10000;
-    int gi = 400;
-    
-    for (int xx = x1+1  ; xx < x2 ; ++xx)
-    {   
-        // x is already defined
-        yy += gradient; 
-        //frame coordinate = the new (x, yy)
-        
-        unsigned char** input = NULL;
-        input = new unsigned char*[frameHeight];
-        for (int f = 0; f < frameWidth; f++)
+
+    //check if the x start is more than x end - do backwards
+    if (x1 > x2)
+    {
+        for (int xx = x1+1  ; xx > x2 ; --xx)
         {   
-            input[f] = NULL;
-            input[f] = new unsigned char[frameWidth];
-        }
-        
-        int y = round(yy);
-        int x = xx;
-    
-        for (int g = 0; g < frameHeight ; g++){
-            y = round(yy);
-            //std::cout << "check x: " << xx << std::endl;
-            for (int l = 0; l < frameWidth; l++)
-            {
-                //std::cout << "( " << x  << " "<< y << " )" << std::endl;
-                input[g][l] = values[x][y];
-                //std::cout <<  x << " " << y << std::endl;
-                y++;
-
+            // x is already defined
+            yy += gradient; 
+            //frame coordinate = the new (x, yy)
+            
+            unsigned char** input = NULL;
+            input = new unsigned char*[frameHeight];
+            for (int f = 0; f < frameWidth; f++)
+            {   
+                input[f] = NULL;
+                input[f] = new unsigned char[frameWidth];
             }
-            x++;
-        }
-        ORRKAU001::FrameSequence::imageSequence.push_back(input);
-    }
+            
+            int y = round(yy);
+            int x = xx;
 
+            for (int g = 0; g < frameHeight ; g++){
+                y = round(yy);
+                //std::cout << "check x: " << xx << std::endl;
+                for (int l = 0; l < frameWidth; l++)
+                {
+                    //std::cout << "( " << x  << " "<< y << " )" << std::endl;
+                    input[g][l] = values[x][y];
+                    //std::cout <<  x << " " << y << std::endl;
+                    y++;
+
+                }
+                x++;
+            }
+            ORRKAU001::FrameSequence::imageSequence.push_back(input);
+        
+    
+    
+        }
+    }
+    // go forwards if x start is less than x end
+    else
+    {
+        for (int xx = x1+1  ; xx < x2 ; ++xx)
+        {   
+            // x is already defined
+            yy += gradient; 
+            //frame coordinate = the new (x, yy)
+            
+            unsigned char** input = NULL;
+            input = new unsigned char*[frameHeight];
+            for (int f = 0; f < frameWidth; f++)
+            {   
+                input[f] = NULL;
+                input[f] = new unsigned char[frameWidth];
+            }
+            
+            int y = round(yy);
+            int x = xx;
+
+            for (int g = 0; g < frameHeight ; g++){
+                y = round(yy);
+                //std::cout << "check x: " << xx << std::endl;
+                for (int l = 0; l < frameWidth; l++)
+                {
+                    //std::cout << "( " << x  << " "<< y << " )" << std::endl;
+                    input[g][l] = values[x][y];
+                    //std::cout <<  x << " " << y << std::endl;
+                    y++;
+
+                }
+                x++;
+            }
+            ORRKAU001::FrameSequence::imageSequence.push_back(input);
+        }
+    }
 }
