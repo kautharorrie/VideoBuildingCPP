@@ -9,6 +9,15 @@ ORRKAU001::FrameSequence::FrameSequence(void)
 //destructor implementation
 ORRKAU001::FrameSequence::~FrameSequence()
 {
+    for (int i = 0; i < ORRKAU001::FrameSequence::imageSequence.size() ; i++)
+    {
+        unsigned char** p = ORRKAU001::FrameSequence::imageSequence[i];
+        for (int j = 0; j < sizeof(p); j++)
+        {
+            delete[] p[sizeof(p)];
+        }
+        delete[] p;
+    }
   
 }
 
