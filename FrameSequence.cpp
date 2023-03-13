@@ -15,19 +15,21 @@ ORRKAU001::FrameSequence::FrameSequence(void)
 //destructor implementation
 ORRKAU001::FrameSequence::~FrameSequence()
 {
-    
+    /**
+     * loop through the image sequence vector to free up all the heap memory
+     * delete all the pointers to a pointer array (2D dynamically allocated array)
+     */
     for (int i = 0; i < ORRKAU001::FrameSequence::imageSequence.size() ; i++)
     {
-        unsigned char** p = NULL; 
-        p = ORRKAU001::FrameSequence::imageSequence[i];
+        unsigned char** p = NULL; // set the array to NULL
+        p = ORRKAU001::FrameSequence::imageSequence[i]; // get each 2D array from the vector
+        // loop through the 2D array of pointers to delete the memory from the heap
         for (int j = 0; j < sizeof(p); j++)
         {
-            //p[j] = NULL;
-            delete[] p[j];
+            delete[] p[j]; // delete the inner array of pointers ( the y values in [x][y])
         }
-        delete[] p;
+        delete[] p; // delete outer array of the matrix
     }
-    //std::cout << "Object destroyed" << std::endl;
   
 }
 
